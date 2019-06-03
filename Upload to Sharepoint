@@ -1,3 +1,15 @@
+Del p:\sp\sp\*$date*
+
+Add-PSSnapin qu*
+
+$date = get-date -format MM-dd-yy
+
+$groups =  Get-QADGroup s-app-civic* |? name -NotLike s-app-civicplus-intranet_users
+
+
+foreach ($group in $groups)
+
+{
 
 
 Get-QADGroupMember -SizeLimit 0 -IncludedProperties division $group |Select @{Name="Group";Expression={(Get-QADGroup $group ).groupname}},Name,department,division,email |export-csv p:\sp\sp\CivicPlusMembers-$date.csv -Append -NoTypeInformation
@@ -44,3 +56,5 @@ $FileCreationInfo = New-Object Microsoft.SharePoint.Client.FileCreationInformati
     $Context.Load($UploadFile)
     $Context.ExecuteQuery()
 }
+
+Del p:\sp\*$date*
